@@ -1,3 +1,3 @@
-# codespaces-blank
+# Cybersecurity beginner projects 
 
-Just random tools I'm creating to help my cybersecurity journey 
+Just random tools I'm creating on my cybersecurity journey 
