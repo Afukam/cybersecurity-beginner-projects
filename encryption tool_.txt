@@ -1,0 +1,89 @@
+import numpy as np
+
+# Define the alphabet
+ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+def beaufort(keyword, plaintext):
+    # Generate repeating sequence of alphabets
+        key = ''
+            i = 0
+                while len(key) < len(plaintext):
+                        key += keyword[i]
+                                i = (i + 1) % len(keyword)
+                                    
+                                        # Encrypt plaintext using Beaufort cipher
+                                            ciphertext = ''
+                                                for i in range(len(plaintext)):
+                                                        p = ALPHABET.index(plaintext[i])
+                                                                k = ALPHABET.index(key[i])
+                                                                        c = (k - p) % len(ALPHABET)
+                                                                                ciphertext += ALPHABET[c]
+                                                                                    
+                                                                                        return ciphertext
+
+                                                                                        def permutation(key, plaintext):
+                                                                                            # Define transposition matrix
+                                                                                                matrix = np.zeros((len(key), len(plaintext)), dtype=int)
+                                                                                                    for i in range(len(key)):
+                                                                                                            for j in range(len(plaintext)):
+                                                                                                                        matrix[i][j] = (i * len(plaintext) + j) % len(plaintext)
+                                                                                                                            
+                                                                                                                                # Rearrange letters of plaintext using transposition matrix
+                                                                                                                                    ciphertext = ''
+                                                                                                                                        for i in range(len(key)):
+                                                                                                                                                for j in range(len(plaintext)):
+                                                                                                                                                            ciphertext += plaintext[matrix[i][j]]
+                                                                                                                                                                
+                                                                                                                                                                    return ciphertext
+
+                                                                                                                                                                    def vigenere(keyword, plaintext):
+                                                                                                                                                                        # Generate repeating sequence of shifts
+                                                                                                                                                                            shifts = []
+                                                                                                                                                                                for i in range(len(plaintext)):
+                                                                                                                                                                                        k = ALPHABET.index(keyword[i % len(keyword)])
+                                                                                                                                                                                                shifts.append(k)
+                                                                                                                                                                                                    
+                                                                                                                                                                                                        # Encrypt plaintext using Vigenere cipher
+                                                                                                                                                                                                            ciphertext = ''
+                                                                                                                                                                                                                for i in range(len(plaintext)):
+                                                                                                                                                                                                                        p = ALPHABET.index(plaintext[i])
+                                                                                                                                                                                                                                k = shifts[i]
+                                                                                                                                                                                                                                        c = (p + k) % len(ALPHABET)
+                                                                                                                                                                                                                                                ciphertext += ALPHABET[c]
+                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                        return ciphertext
+
+                                                                                                                                                                                                                                                        def caesar(shift, plaintext):
+                                                                                                                                                                                                                                                            # Encrypt plaintext using Caesar cipher
+                                                                                                                                                                                                                                                                ciphertext = ''
+                                                                                                                                                                                                                                                                    for i in range(len(plaintext)):
+                                                                                                                                                                                                                                                                            p = ALPHABET.index(plaintext[i])
+                                                                                                                                                                                                                                                                                    c = (p + shift) % len(ALPHABET)
+                                                                                                                                                                                                                                                                                            ciphertext += ALPHABET[c]
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                    return ciphertext
+
+                                                                                                                                                                                                                                                                                                    def encrypt(keyword, key, shift, plaintext):
+                                                                                                                                                                                                                                                                                                        # Apply Beaufort cipher
+                                                                                                                                                                                                                                                                                                            ciphertext = beaufort(keyword, plaintext)
+                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                    # Apply permutation cipher
+                                                                                                                                                                                                                                                                                                                        ciphertext = permutation(key, ciphertext)
+                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                # Apply Vigenere cipher
+                                                                                                                                                                                                                                                                                                                                    ciphertext = vigenere(keyword, ciphertext)
+                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                            # Apply Caesar cipher
+                                                                                                                                                                                                                                                                                                                                                ciphertext = caesar(shift, ciphertext)
+                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                        return ciphertext
+
+                                                                                                                                                                                                                                                                                                                                                        # Example usage
+                                                                                                                                                                                                                                                                                                                                                        keyword = 'SECRET'
+                                                                                                                                                                                                                                                                                                                                                        key = 'CRYPTO'
+                                                                                                                                                                                                                                                                                                                                                        shift = 5
+                                                                                                                                                                                                                                                                                                                                                        plaintext = 'HELLO WORLD'
+
+                                                                                                                                                                                                                                                                                                                                                        ciphertext = encrypt(keyword, key, shift, plaintext)
+                                                                                                                                                                                                                                                                                                                                                        print(ciphertext)
+                                                                                                                                                                                                                                                                                                                                                        
